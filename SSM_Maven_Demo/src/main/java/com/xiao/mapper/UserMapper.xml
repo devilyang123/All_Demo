@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ 
+ 
+ <mapper namespace="com.xiao.mapper.UserMapper">
+ 
+ 	
+ 	
+ 	<!--添加用户  -->
+ 	<insert id="addUser" parameterType="User">
+ 		insert into user_tb(uid,username,password,age,gender,email)
+ 		values(#{uid},#{username},#{password},#{age},#{gender},#{email})	
+ 	
+ 	</insert>
+ 	
+ 	
+ 	<!--通过 id查询 用户-->
+ 	<select id="findUserById"  parameterType="Integer" resultType="User" >
+ 		select * from user_tb where uid = #{uid}
+ 	</select>
+ 	
+ 	<!-- 查询所有用户 -->
+ 	<select id="getUserList" resultType="User">
+ 		select * from user_tb
+ 	</select>
+ 	
+ 	<!-- 根据用户名查询用户 -->
+ 	<select id="findUserByName" parameterType="String" resultType="User">
+ 		select * from user_tb where username = #{username}
+ 	</select>
+ 	
+ 	<!-- 根据用户名模糊查询用户 -->
+ 	<select id="getUserListByName" parameterType="String" resultType="User">
+ 		select * from user_tb where username like "%"#{username}"%" limit 0,5
+ 	</select>
+ 	
+ 	<!-- 用户登录 -->
+ 	<select id="findUserByUsernameAndPassword" parameterType="User" resultType="User">
+ 		select * from user_tb
+ 		<where>
+ 		<if test="username != null and username != '' ">
+ 			 username = #{username}
+ 		</if>
+ 		<if test="password != null and password != '' ">
+ 			and password = #{password}
+ 		</if>
+ 		</where> 
+ 	</select>
+ 	
+ 	
+ 	
+ 	<!--根据用户名 模糊查询
+ 	<select id="findUserByUName" parameterType="String" resultType="User">
+ 			select * from mybatis where uname like "%"#{uname}"%"
+ 	</select>
+ 	-->
+ 	<!--添加用户 
+ 	<insert id="addUser" parameterType="User">
+ 		insert into mybatis(uid,uname,password) values (#{uid},#{uname},#{password})
+ 	</insert>
+ 	-->
+ 	<!--添加用户 返回 id
+ 	<insert id="addUserBackId" parameterType="User">
+ 		<selectKey keyProperty="uid" resultType="Integer" order="AFTER">
+ 			select LAST_INSERT_ID()
+ 		</selectKey>
+ 		insert into mybatis(uid,uname,password) values (#{uid},#{uname},#{password})
+ 	</insert>
+ 	-->	
+ 	<!-- 根据id修改用户
+ 	<update id="updateUserById" parameterType="User" >
+ 		update mybatis set uname = #{uname}, password = #{password} where uid = #{uid}
+ 	</update>
+ 	 -->
+ 	<!-- 删除用户 
+ 	<delete id="deleteUserById" parameterType="Integer" >
+ 		delete from mybatis where uid = #{uid}
+ 	</delete>
+ 	-->
+ 	
+ 	
+ 	
+ 	<!--根据用户名 模糊查询(入参为包装类)
+ 	<select id="findUserByQueryVo" parameterType="com.xiao.query.QueryVo" resultType="User" >
+ 			select * from mybatis where uname like "%"#{user.uname}"%"
+ 	</select>
+ 	-->
+ 	
+ 	<!-- 查询数据条数 
+ 	<select id="countUser" resultType="Integer">
+ 		select count(*) from mybatis
+ 	</select>
+ 	-->
+ 	<!-- type填写返回值类型 -->
+ 	<!-- <resultMap type="User" id="uid">
+ 		id属性映射 column填写字段名 property填写实体中的名称  
+ 		<id column="uid" property="id"/>
+ 		其他属性映射
+ 		<result column="" property=""/>
+ 	</resultMap> -->
+ 	
+ 	<!-- 查询所有用户 -->
+ 	<!--resultMap填写上面resultMap的id -->
+ 	<!-- <select id="findUserList" resultMap="uid">
+ 		select * from mybatis
+ 	</select> -->
+ 
+ 
+ 	<!-- 根据用户名和密码查询用户 -->
+ 	<!-- <select id="findUserByUNameAndPassword" parameterType="User" resultType="User">
+ 		select * from mybatis
+ 		<where>
+ 		<if test="uname != null and uname != '' ">
+ 			 uname = #{uname}
+ 		</if>
+ 		<if test="password != null and password != '' ">
+ 			and password = #{password}
+ 		</if>
+ 		</where> 
+ 	</select> -->
+ 
+ 	<!--根据多个id查询用户(包装类)  -->
+ 	<!-- <select id="findUserByIdss" parameterType="com.xiao.query.QueryVo" resultType="User">
+ 		select * from mybatis 
+ 		<where>
+ 			uid in
+ 			<foreach collection="idList" item="uid" separator="," open="(" close=")">
+ 				#{uid}
+ 			</foreach>
+ 		</where>
+ 	</select> -->
+ 	
+ 	
+ 	<!--根据多个id查询用户(数组)  -->
+ 	<!-- <select id="findUserByIdsss" parameterType="com.xiao.query.QueryVo" resultType="User">
+ 		select * from mybatis 
+ 		<where>
+ 			uid in
+ 			<foreach collection="array" item="uid" separator="," open="(" close=")">
+ 				#{uid}
+ 			</foreach>
+ 		</where>
+ 	</select> -->
+ 	
+ 	<!--根据多个id查询用户(集合)  -->
+ 	<!-- <select id="findUserByIds" parameterType="com.xiao.query.QueryVo" resultType="User">
+ 		select * from mybatis 
+ 		<where>
+ 			uid in
+ 			<foreach collection="list" item="uid" separator="," open="(" close=")">
+ 				#{uid}
+ 			</foreach>
+ 		</where>
+ 	</select> -->
+ 
+ 
+ 
+ </mapper>
