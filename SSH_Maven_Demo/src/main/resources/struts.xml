@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC
+	"-//Apache Software Foundation//DTD Struts Configuration 2.5//EN"
+	"http://struts.apache.org/dtds/struts-2.5.dtd">
+<struts>
+
+	<!--将Action交给Spring容器  -->
+	<constant name="struts.objectFactory" value="spring"></constant>
+
+	<!--i18n:国际化,主要用于解决POST表单提交乱码  -->
+	<constant name="struts.i18n.encoding" value="UTF-8"></constant>
+	
+	<!-- 配置访问资源的后缀 -->
+	<constant name="struts.action.extension" value="action"></constant>
+	
+	<!-- 指定以开发者模式运行 -->
+	<constant name="struts.devMode" value="true"></constant>
+	
+	<!-- 引入其他配置文件 -->
+	<include file="ssh.xml"></include>
+	
+	
+	
+	
+</struts>

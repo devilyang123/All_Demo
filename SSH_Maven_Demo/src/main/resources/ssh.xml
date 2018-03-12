@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC
+	"-//Apache Software Foundation//DTD Struts Configuration 2.5//EN"
+	"http://struts.apache.org/dtds/struts-2.5.dtd">
+<struts>
+
+	<package name="ssh" namespace="/" extends="struts-default">
+		<!-- struts2.5想要用通配符动态方法调用要加这配置一下语句 -->
+		<global-allowed-methods>regex:.*</global-allowed-methods>
+		
+		<action name="RegisterAction_*" class="com.xiao.action.RegisterAction" method="{1}">
+			<result name="registerFail" type="redirect">fail.jsp</result>
+			<result name="success" type="redirect">success.jsp</result>
+		</action>
+	
+		<action name="LoginAction_*" class="com.xiao.action.LoginAction" method="{1}">
+			<result name="home" type="redirect">success.jsp</result>
+			<result name="login" type="dispatcher">login.jsp</result>
+		</action>
+	
+	</package>
+	
+	
+</struts>

@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+		xmlns="http://www.springframework.org/schema/beans" 
+		xmlns:context="http://www.springframework.org/schema/context" 
+		xmlns:aop="http://www.springframework.org/schema/aop" 
+		xmlns:jdbc="http://www.springframework.org/schema/jdbc" 
+		xmlns:tx="http://www.springframework.org/schema/tx" 
+		xsi:schemaLocation="http://www.springframework.org/schema/beans   http://www.springframework.org/schema/beans/spring-beans-4.2.xsd 
+							http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.2.xsd 
+							http://www.springframework.org/schema/aop     http://www.springframework.org/schema/aop/spring-aop-4.2.xsd 
+							http://www.springframework.org/schema/jdbc    http://www.springframework.org/schema/jdbc/spring-jdbc-4.2.xsd 
+							http://www.springframework.org/schema/tx      http://www.springframework.org/schema/tx/spring-tx-4.2.xsd ">
+
+	<!-- 读取db.properties文件 -->
+	<context:property-placeholder location="classpath:db.properties" />
+	
+	<!-- 使用第3方连接池框架  C3P0-->
+	<bean id="dataSource"  class="com.mchange.v2.c3p0.ComboPooledDataSource"  destroy-method="close">  
+	    <property name="driverClass" 			   value="${c3p0.driverClass}"></property>  
+	    <property name="jdbcUrl"                   value="${c3p0.jdbcUrl}"></property>  
+	    <property name="user" 	                   value="${c3p0.user}"></property>  
+	    <property name="password"                  value="${c3p0.password}"></property>  
+	    <property name="acquireIncrement"  	       value="2"></property>  
+	    <property name="initialPoolSize"           value="1"></property>  
+	    <property name="maxPoolSize"               value="2"></property>  
+	    <property name="minPoolSize"               value="1"></property>  
+	    <property name="acquireRetryDelay"         value="100"></property>  
+	    <property name="acquireRetryAttempts"      value="10"></property>  
+	    <property name="breakAfterAcquireFailure"  value="false"></property>  
+	</bean> 
+
+	<!-- 将SessionFactory配置到Spring容器中 -->
+	<bean name="sessionFactory" class="org.springframework.orm.hibernate5.LocalSessionFactoryBean" >
+		<!-- 注入c3p0连接池 -->
+		<property name="dataSource" ref="dataSource"></property>
+		<!-- hibernate的其他配置 -->
+		<property name="hibernateProperties">
+			<props>
+				<prop key="hibernate.dialect" >org.hibernate.dialect.MySQL5Dialect</prop>
+				<prop key="hibernate.show_sql" >true</prop>
+				<prop key="hibernate.format_sql" >true</prop>
+				<prop key="hibernate.hbm2ddl.auto" >update</prop>
+			</props>
+		</property>
+		<!-- 引入orm元数据,指定orm元数据所在的包路径,spring会自动读取包中的所有配置 -->
+		<property name="mappingDirectoryLocations">
+			<list>
+				<value>classpath:com/xiao/pojo/</value>
+			</list>
+		</property>
+	</bean>
+	
+	<!-- Hibernate核心事务管理器 -->
+	<bean name="transactionManager" class="org.springframework.orm.hibernate5.HibernateTransactionManager" >
+		<property name="sessionFactory" ref="sessionFactory" ></property>
+	</bean>
+	
+	<!-- 开启事物注解 -->
+	<tx:annotation-driven  />
+	<context:component-scan base-package="com.xiao" />
+	<context:annotation-config />
+	
+</beans>
