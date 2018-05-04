@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ 
+ 
+ <mapper namespace="com.xiao.mapper.UserMapper">
+ 
+
+ 	<!--添加用户  -->
+ 	<insert id="addUser" parameterType="User">
+		insert into tb_user values(#{id},#{userName},#{userPassword})
+ 	</insert>
+ 	
+ 	
+ 	<!-- 查询用列表 -->
+ 	<select id="getUserList" resultType="User">
+ 		select * from tb_user
+ 	</select>
+ 	
+ 	<!-- 根据id删除用户 -->
+ 	<delete id="deleteUserByID" parameterType="Integer">
+ 		delete from tb_user where id = #{id}
+ 	</delete>
+ 	
+ 	<!--通过 id查询 用户-->
+	 <select id="getUserByID" parameterType="Integer" resultType="User">
+	 	select * from tb_user where id = #{id}
+	 </select>	
+	 
+	 <!-- 修改用户 -->
+	 <update id="updateUser" parameterType="User">
+	 	update tb_user set userName = #{userName},userPassword = #{userPassword} where id = ${id}
+	 </update>
+
+ </mapper>

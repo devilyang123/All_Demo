@@ -1,0 +1,20 @@
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/demo?characterEncoding=utf-8
+    driver-class-name: com.mysql.jdbc.Driver
+    username: root
+    password: root
+    type: com.alibaba.druid.pool.DruidDataSource
+  freemarker:
+    cache: false
+    charset: utf-8
+    check-template-location: true
+    content-type: text/html
+    enabled: true
+    suffix: .ftl
+    template-loader-path: classpath:/templates
+mybatis:
+  mapper-locations: classpath:mapper/*.xml
+  type-aliases-package: com.xiao.pojo
+server:
+  port: 8080
